@@ -1,6 +1,6 @@
 use eframe::egui::{self, Color32, RichText};
 use egui_extras::{Column, TableBuilder};
-use rushvn::{
+use rustvn::{
     article::{article_order, decode_article},
     model::{Article, Document, Group, Security, Server, Sort, group_matches},
     nntp::Cancel,
@@ -356,7 +356,7 @@ impl NewsApp {
             ui.add_space(5.0);
             ui.horizontal(|ui| {
                 ui.label(
-                    RichText::new("rushVN")
+                    RichText::new("rustVN")
                         .strong()
                         .size(23.0)
                         .color(Color32::from_rgb(28, 75, 105)),
@@ -447,7 +447,7 @@ impl NewsApp {
         if self.font_warning {
             egui::TopBottomPanel::top("font_warning").show(ctx, |ui| {
                 ui.label(
-                    "Japanese font not found. Set RUSHVN_FONT to a Japanese .ttf/.otf/.ttc file.",
+                    "Japanese font not found. Set RUSTVN_FONT to a Japanese .ttf/.otf/.ttc file.",
                 );
             });
         }
@@ -802,7 +802,7 @@ if ui.button("閉じる").clicked(){self.settings=false;}});
             self.settings = false;
         }
         if save {
-            if let Err(e) = rushvn::nntp::validate_server(&self.draft) {
+            if let Err(e) = rustvn::nntp::validate_server(&self.draft) {
                 self.error = Some(e.to_string());
                 return;
             }
@@ -955,7 +955,8 @@ fn charset_name(n: usize) -> &'static str {
     }
 }
 fn load_japanese_font(ctx: &egui::Context) -> bool {
-    let mut candidates: Vec<PathBuf> = std::env::var_os("RUSHVN_FONT")
+    let mut candidates: Vec<PathBuf> = std::env::var_os("RUSTVN_FONT")
+        .or_else(|| std::env::var_os("RUSHVN_FONT"))
         .map(PathBuf::from)
         .into_iter()
         .collect();
@@ -1033,7 +1034,7 @@ pub fn seed_demo(path: &Path) -> anyhow::Result<()> {
         (
             "Re: Rustでニュースリーダーを作ろう",
             "佐藤 <sato@example.invalid>",
-            "<demo-1@rushvn.invalid>",
+            "<demo-1@rustvn.invalid>",
             "> まずは読むことから。\n\n賛成です。取得した記事をオフラインでも読めると便利ですね。\n日本語の文字コードにも対応してほしいです。",
         ),
         (
@@ -1044,7 +1045,7 @@ pub fn seed_demo(path: &Path) -> anyhow::Result<()> {
         ),
     ];
     for (i, (subject, author, refs, body)) in samples.iter().enumerate() {
-        let id = format!("<demo-{}@rushvn.invalid>", i + 1);
+        let id = format!("<demo-{}@rustvn.invalid>", i + 1);
         let raw = format!(
             "From: {author}\r\nSubject: {subject}\r\nDate: Sat, 26 Sep 2026 10:0{i}:00 +0900\r\nNewsgroups: fj.comp.lang.rust\r\nMessage-ID: {id}\r\nReferences: {refs}\r\nContent-Type: text/plain; charset=utf-8\r\n\r\n{body}\r\n"
         );
@@ -1055,7 +1056,7 @@ pub fn seed_demo(path: &Path) -> anyhow::Result<()> {
             date: format!("2026-09-26 10:0{i}"),
             timestamp: i as i64,
             message_id: id.clone(),
-            references: rushvn::article::message_ids(refs),
+            references: rustvn::article::message_ids(refs),
             ..Default::default()
         };
         db.save_overview(&s.id, "fj.comp.lang.rust", (1, 3), Some((1, 3)), &[a])?;

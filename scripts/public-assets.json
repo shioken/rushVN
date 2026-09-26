@@ -1,6 +1,6 @@
 {
-  "docs/images/demo.png": "a6cc149029f0d4f923bd30830659e7bbc5350d9e6f486cbf4905b6b8cb759979",
-  "docs/images/setup.png": "16706d33444311c178dda79bb77e9fd1c37fa01639b74acf66299278242974de",
+  "docs/images/demo.png": "a5616dac3fa13b0a0027aaf756be026a486244fb288a6f03ba2b4e9424d92c20",
+  "docs/images/setup.png": "d3ad6b5f8bf4b0a8581ae37345ffcc7db892bb3d49fae709ba25985c8efdd794",
   "tests/fixtures/localhost.pem": "095313c4406118fa670c06e798cce5ff1659e494b2ef3b2c59d42c7d97ab5938",
   "tests/fixtures/localhost.p12": "b9df01bb2128a991ba8a8e40fbd422cb514b5a58166ef3ca8ea2c845ee97d238"
 }

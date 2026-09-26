@@ -5,7 +5,7 @@ import socketserver
 
 ARTICLES = {
     1: ("Rustでニュースリーダーを作ろう", "", "久しぶりにfjを読むための、ローカル試験用記事です。\n\n日本語の記事と既読状態を確認できます。\n.ドットから始まる行も表示できます。"),
-    3: ("Re: Rustでニュースリーダーを作ろう", "<1@rushvn.test>", "> 日本語の記事と既読状態を確認できます。\n\n返信のスレッド表示も確認してみましょう。"),
+    3: ("Re: Rustでニュースリーダーを作ろう", "<1@rustvn.test>", "> 日本語の記事と既読状態を確認できます。\n\n返信のスレッド表示も確認してみましょう。"),
     5: ("日本語とオフライン表示", "", "本文を一度開いてからオフラインにしてください。\nアプリを再起動しても保存済みの記事を読めます。"),
 }
 
@@ -14,7 +14,7 @@ def article(number):
     subject, refs, body = ARTICLES[number]
     return (f"Subject: {subject}\r\nFrom: Demo <demo@example.invalid>\r\n"
             f"Date: Sat, 26 Sep 2026 10:0{number}:00 +0900\r\n"
-            f"Message-ID: <{number}@rushvn.test>\r\nReferences: {refs}\r\n"
+            f"Message-ID: <{number}@rustvn.test>\r\nReferences: {refs}\r\n"
             "Newsgroups: fj.test\r\nContent-Type: text/plain; charset=utf-8\r\n\r\n"
             + body.replace("\n", "\r\n")).encode()
 
@@ -30,7 +30,7 @@ class Handler(socketserver.StreamRequestHandler):
 
     def handle(self):
         self.connection.settimeout(30)
-        self.reply("201 rushVN local read-only fixture")
+        self.reply("201 rustVN local read-only fixture")
         while request := self.rfile.readline(4096):
             words = request.decode("ascii", errors="replace").strip().split()
             if not words:
@@ -50,15 +50,15 @@ class Handler(socketserver.StreamRequestHandler):
                 start, end = map(int, words[-1].split("-"))
                 self.reply("224 overview")
                 self.block([
-                    (f"{n}\t{s}\tDemo\t26 Sep 2026 10:0{n}:00 +0900\t<{n}@rushvn.test>\t{refs}\t400\t10").encode()
+                    (f"{n}\t{s}\tDemo\t26 Sep 2026 10:0{n}:00 +0900\t<{n}@rustvn.test>\t{refs}\t400\t10").encode()
                     for n, (s, refs, _) in ARTICLES.items() if start <= n <= end
                 ])
             elif command == "ARTICLE":
-                found = next((n for n in ARTICLES if words[-1] == f"<{n}@rushvn.test>"), None)
+                found = next((n for n in ARTICLES if words[-1] == f"<{n}@rustvn.test>"), None)
                 if found is None:
                     self.reply("430 no article")
                 else:
-                    self.reply(f"220 {found} <{found}@rushvn.test>")
+                    self.reply(f"220 {found} <{found}@rustvn.test>")
                     self.block(article(found).split(b"\r\n"))
             elif command == "QUIT":
                 self.reply("205 goodbye")

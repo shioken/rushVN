@@ -1,10 +1,10 @@
-# rushVN
+# rustVN
 
 WinVNのような操作感でfjを読む、Rust製のデスクトップNNTPニュースリーダーです。初版は閲覧専用で、投稿・返信・下書きは後続版で対応します。
 
 現在は最初の動作版です。macOSでビルドと実画面を確認しました。実サーバーのアカウントを使ったfjの記事取得は未検証です。
 
-![rushVNの実画面（架空のデモ記事）](docs/images/demo.png)
+![rustVNの実画面（架空のデモ記事）](docs/images/demo.png)
 
 ## 起動
 
@@ -58,7 +58,7 @@ cargo run --locked -- --demo
 
 ## 保存と接続
 
-通常はOSのアプリ用データディレクトリ（macOSでは `~/Library/Application Support/org.rushVN.rushVN/`）に保存します。場所を指定することもできます。
+通常はOSのアプリ用データディレクトリ（macOSでは `~/Library/Application Support/org.rushVN.rushVN/`）に保存します。旧名rushVNのデータを引き継ぐため、保存先と資格情報ストアの内部識別子は維持しています。場所を指定することもできます。
 
 ```sh
 cargo run --locked -- --data-dir .local/news
@@ -95,7 +95,7 @@ cargo run --locked --example measure_cache
 通信テストはlocalhostに一時的なサーバーを立てます。TLSのテスト用証明書については [fixturesの説明](tests/fixtures/README.md)を参照してください。
 
 ```sh
-cargo run --locked -- --demo --screenshot /tmp/rushvn-demo.png
+cargo run --locked -- --demo --screenshot /tmp/rustvn-demo.png
 ```
 
 実ウィンドウを描画してPNGを保存し、終了します。GUIセッションが必要です。
@@ -109,7 +109,7 @@ cargo run --locked -- --demo --screenshot /tmp/rushvn-demo.png
 - 本文表示は先頭20,000行までです。超過を画面に表示し、保存済み元データは切り捨てません。「元データ」の画面表示はUTF-8の損失許容変換です。
 - 通信は操作ごとに接続します。接続の再利用、自動巡回、取得中の件数進捗は未実装です。
 - 10万件の保存・読み込み・スレッド処理は測定済みですが、10万件でのGUI応答時間と強制終了時の復旧試験は未完了です。
-- 日本語フォントはOSから読み込みます。見つからない場合は `RUSHVN_FONT` に日本語フォントファイルのパスを指定してください。OSの日本語フォントは同梱しませんが、eguiの標準フォントは実行ファイルに含まれます。
+- 日本語フォントはOSから読み込みます。見つからない場合は `RUSTVN_FONT` に日本語フォントファイルのパスを指定してください。旧環境変数 `RUSHVN_FONT` も互換用に読み込みます。OSの日本語フォントは同梱しませんが、eguiの標準フォントは実行ファイルに含まれます。
 
 設計・検証範囲は [実装メモ](docs/implementation.md)、製品要件と未確定事項は [要件定義書](docs/requirements.md)を参照してください。
 
@@ -121,6 +121,6 @@ cargo run --locked -- --demo --screenshot /tmp/rushvn-demo.png
 
 ソースコードのみを公開する方針です。バイナリ配布は予定していません。利用者が手元でビルドして使用してください。
 
-rushVNの独自コード、ドキュメント、架空のデモデータ、テスト用素材および独自のスクリーンショット部分は [MIT License](LICENSE) です。第三者のコード・フォント等には各著作者のライセンスが適用され、MITへの変更を意味しません。
+rustVNの独自コード、ドキュメント、架空のデモデータ、テスト用素材および独自のスクリーンショット部分は [MIT License](LICENSE) です。第三者のコード・フォント等には各著作者のライセンスが適用され、MITへの変更を意味しません。
 
 依存ライブラリ・組み込みフォントの表示とライセンス本文は [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) にまとめています。ソース入手先、適用範囲、配布時の手順は [ライセンスと配布](docs/licensing.md) を参照してください。

@@ -19,7 +19,7 @@ impl Store {
         let version: i64 = conn.query_row("PRAGMA user_version", [], |r| r.get(0))?;
         ensure!(
             version <= 1,
-            "この保存データには新しいバージョンのrushVNが必要です"
+            "この保存データには新しいバージョンのrustVNが必要です"
         );
         conn.execute_batch("BEGIN;
             CREATE TABLE IF NOT EXISTS servers(id TEXT PRIMARY KEY, config TEXT NOT NULL);

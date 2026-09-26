@@ -22,7 +22,7 @@ fn main() -> Result<()> {
             }
             "--help" | "-h" => {
                 println!(
-                    "rushvn [--data-dir PATH] [--demo] [--screenshot PNG]\n--demo: isolated offline sample articles; no connection\n--screenshot: save the first ready window and exit"
+                    "rustvn [--data-dir PATH] [--demo] [--screenshot PNG]\n--demo: isolated offline sample articles; no connection\n--screenshot: save the first ready window and exit"
                 );
                 return Ok(());
             }
@@ -31,8 +31,9 @@ fn main() -> Result<()> {
     }
     let dir = data_dir.unwrap_or_else(|| {
         if demo {
-            std::env::temp_dir().join("rushvn-demo")
+            std::env::temp_dir().join("rustvn-demo")
         } else {
+            // Keep the original storage ID so existing settings and articles remain available.
             directories::ProjectDirs::from("org", "rushVN", "rushVN")
                 .expect("application data directory")
                 .data_local_dir()
@@ -52,9 +53,9 @@ fn main() -> Result<()> {
     let options = eframe::NativeOptions {
         viewport: eframe::egui::ViewportBuilder::default()
             .with_title(if demo {
-                "rushVN — デモ / オフライン"
+                "rustVN — デモ / オフライン"
             } else {
-                "rushVN — fj ニュースリーダー"
+                "rustVN — fj ニュースリーダー"
             })
             .with_inner_size([1220.0, 820.0])
             .with_min_inner_size([850.0, 580.0]),
@@ -62,7 +63,7 @@ fn main() -> Result<()> {
         ..Default::default()
     };
     eframe::run_native(
-        "rushVN",
+        "rustVN",
         options,
         Box::new(move |cc| Ok(Box::new(ui::NewsApp::new(cc, db, demo, screenshot)))),
     )

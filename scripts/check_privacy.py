@@ -8,7 +8,8 @@ import subprocess
 import sys
 from pathlib import PurePosixPath
 
-IDENTITY = "rushVN Contributors <contributors@rushvn.invalid>"
+IDENTITY = "rustVN Contributors <contributors@rustvn.invalid>"
+HISTORICAL_IDENTITIES = {IDENTITY, "rushVN Contributors <contributors@rushvn.invalid>"}
 LICENSE_NOTICE_PATHS = {"THIRD_PARTY_NOTICES.md", "licenses/upstream.json"}
 EMAIL = re.compile(rb"[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@([A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*)")
 RULES = {
@@ -65,9 +66,7 @@ def main():
     mode.add_argument("--worktree", action="store_true")
     args = parser.parse_args()
     # Use the staged manifest too, so unstaged changes cannot silently waive a finding.
-    assets = json.loads(git("show", ":scripts/public-assets.json"))
-    def license_manifest(revision=None):
-        path = "scripts/license-notices.json"
+    def read_manifest(path, revision=None):
         if args.worktree:
             from pathlib import Path
             return json.loads(Path(path).read_text())
@@ -75,7 +74,8 @@ def main():
         found = subprocess.run(["git", "show", spec], capture_output=True)
         return json.loads(found.stdout) if found.returncode == 0 else {}
 
-    licenses = license_manifest()
+    assets = read_manifest("scripts/public-assets.json")
+    licenses = read_manifest("scripts/license-notices.json")
     failures = []
     seen = set()
     if args.history:
@@ -87,9 +87,10 @@ def main():
                 failures.append((kind, "use the repository's anonymous commit identity"))
     for revision in revisions:
         if revision:
-            licenses = license_manifest(revision)
+            assets = read_manifest("scripts/public-assets.json", revision)
+            licenses = read_manifest("scripts/license-notices.json", revision)
             author, committer, message = git("show", "-s", "--format=%an <%ae>%n%cn <%ce>%n%B", revision).decode().split("\n", 2)
-            if author != IDENTITY or committer != IDENTITY:
+            if author not in HISTORICAL_IDENTITIES or committer not in HISTORICAL_IDENTITIES:
                 failures.append((revision[:12], "personal commit identity"))
             for issue in issues("commit-message", message.encode(), assets, licenses):
                 failures.append((revision[:12], issue))
@@ -120,7 +121,7 @@ def main():
             if fields[0] == b"160000":
                 failures.append((path, "submodule requires a separate privacy review"))
                 continue
-            snapshot_key = (path, oid, licenses.get(path))
+            snapshot_key = (path, oid, assets.get(path), licenses.get(path))
             if snapshot_key in seen:
                 continue
             seen.add(snapshot_key)

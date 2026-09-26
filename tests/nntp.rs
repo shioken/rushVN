@@ -1,4 +1,4 @@
-use rushvn::{
+use rustvn::{
     model::{Security, Server},
     nntp::{Cancel, Client},
     store::Store,

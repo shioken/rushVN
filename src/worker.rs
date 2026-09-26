@@ -1,3 +1,6 @@
+// Stable credential namespace retained across the rustVN rename.
+const KEYRING_SERVICE: &str = "rushVN";
+
 use crate::{
     article::decode_article,
     model::{Article, Document, Group, Server, fetch_range},
@@ -105,7 +108,7 @@ fn password(server: &Server, input: Zeroizing<String>) -> Result<Zeroizing<Strin
     }
     if server.remember_password {
         return Ok(Zeroizing::new(
-            keyring::Entry::new("rushVN", &server.id)?
+            keyring::Entry::new(KEYRING_SERVICE, &server.id)?
                 .get_password()
                 .context("保存済みパスワードを取得できません。設定で入力してください")?,
         ));
@@ -139,14 +142,14 @@ pub fn execute(store: &mut Store, action: Action, cancel: &Cancel) -> Result<Upd
             let mut message = "接続設定を保存しました".to_owned();
             if s.remember_password {
                 if !pw.is_empty()
-                    && keyring::Entry::new("rushVN", &s.id)
+                    && keyring::Entry::new(KEYRING_SERVICE, &s.id)
                         .and_then(|e| e.set_password(&pw))
                         .is_err()
                 {
                     s.remember_password = false;
                     message="資格情報ストアを利用できないため、パスワードはこのセッションのみ保持します".into();
                 }
-            } else if old_remember && let Ok(entry) = keyring::Entry::new("rushVN", &s.id) {
+            } else if old_remember && let Ok(entry) = keyring::Entry::new(KEYRING_SERVICE, &s.id) {
                 match entry.delete_credential() {
                     Ok(()) | Err(keyring::Error::NoEntry) => (),
                     Err(_) => {
@@ -163,7 +166,7 @@ pub fn execute(store: &mut Store, action: Action, cancel: &Cancel) -> Result<Upd
                 .servers()?
                 .iter()
                 .any(|old| old.id == id && old.remember_password)
-                && let Ok(entry) = keyring::Entry::new("rushVN", &id)
+                && let Ok(entry) = keyring::Entry::new(KEYRING_SERVICE, &id)
             {
                 match entry.delete_credential() {
                     Ok(()) | Err(keyring::Error::NoEntry) => (),

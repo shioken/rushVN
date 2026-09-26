@@ -9,8 +9,8 @@ NNTPサーバーの表示名・ホスト名・認証情報は初期状態では�
 このリポジトリでは匿名の作成者・コミッターを使用する。新しいクローンでも次を設定する。
 
 ```sh
-git config --local user.name 'rushVN Contributors'
-git config --local user.email 'contributors@rushvn.invalid'
+git config --local user.name 'rustVN Contributors'
+git config --local user.email 'contributors@rustvn.invalid'
 git config --local core.hooksPath .githooks
 ```
 
@@ -26,6 +26,8 @@ python3 scripts/check_privacy.py --history
 画像とTLS試験データは、確認済みのSHA-256を `scripts/public-assets.json` に記録する。更新した画像に個人情報がないことを目視し、証明書は試験用であることを確認してからハッシュを更新する。`tests/fixtures/localhost.p12` は試験専用の公開可能な鍵で、実サービスの認証情報ではない。
 
 自動チェックは未知の認証情報や任意の個人名を完全には判定できない。公開前には差分・画像・コミットメッセージもレビューする。フックはローカル設定であり、`--no-verify`等で回避可能。GitHubのアカウント名やリポジトリ所有者の公開範囲は、ソースやGit作成者情報とは別に扱う。
+
+過去の匿名コミットには旧名 `rushVN Contributors <contributors@rushvn.invalid>` が使われています。履歴検査ではこの旧識別子も許可し、新規コミットは上記のrustVN名で作成します。公開済みの履歴は書き換えません。
 
 ## 第三者の著作権表示
 

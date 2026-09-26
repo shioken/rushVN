@@ -8,14 +8,14 @@
 
 ```sh
 openssl req -x509 -newkey rsa:2048 -nodes \
-  -keyout /tmp/rushvn-test-key.pem \
+  -keyout /tmp/rustvn-test-key.pem \
   -out tests/fixtures/localhost.pem -days 365 \
   -subj '/CN=localhost' \
   -addext 'subjectAltName=DNS:localhost' \
   -addext 'basicConstraints=critical,CA:TRUE' \
   -addext 'extendedKeyUsage=serverAuth'
 openssl pkcs12 -export -legacy \
-  -inkey /tmp/rushvn-test-key.pem -in tests/fixtures/localhost.pem \
+  -inkey /tmp/rustvn-test-key.pem -in tests/fixtures/localhost.pem \
   -out tests/fixtures/localhost.p12 -passout pass:local-test-only
 ```
 

@@ -1,5 +1,5 @@
 //! Measures local persistence and thread ordering, not rendering or network latency.
-use rushvn::{
+use rustvn::{
     article::article_order,
     model::{Article, Group, Server, Sort},
     store::Store,
