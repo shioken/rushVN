@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2024"
 rust-version = "1.88"
 description = "A read-only Japanese NNTP newsreader inspired by WinVN"
+license = "MIT"
 
 [dependencies]
 anyhow = "1"

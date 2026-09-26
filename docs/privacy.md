@@ -26,3 +26,7 @@ python3 scripts/check_privacy.py --history
 画像とTLS試験データは、確認済みのSHA-256を `scripts/public-assets.json` に記録する。更新した画像に個人情報がないことを目視し、証明書は試験用であることを確認してからハッシュを更新する。`tests/fixtures/localhost.p12` は試験専用の公開可能な鍵で、実サービスの認証情報ではない。
 
 自動チェックは未知の認証情報や任意の個人名を完全には判定できない。公開前には差分・画像・コミットメッセージもレビューする。フックはローカル設定であり、`--no-verify`等で回避可能。GitHubのアカウント名やリポジトリ所有者の公開範囲は、ソースやGit作成者情報とは別に扱う。
+
+## 第三者の著作権表示
+
+ライセンス上必要な第三者の氏名・メールアドレスは削除しない。`THIRD_PARTY_NOTICES.md` と `licenses/upstream.json` に限り、確認した本文のSHA-256を `scripts/license-notices.json` に記録してメールアドレス検査の例外とする。内容が変わると再確認が必要。秘密鍵・トークン・個人用パスの検査は継続する。詳細は [ライセンスと配布](licensing.md) を参照。
