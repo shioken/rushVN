@@ -1,0 +1,6 @@
+{
+  "docs/images/demo.png": "a6cc149029f0d4f923bd30830659e7bbc5350d9e6f486cbf4905b6b8cb759979",
+  "docs/images/setup.png": "16706d33444311c178dda79bb77e9fd1c37fa01639b74acf66299278242974de",
+  "tests/fixtures/localhost.pem": "095313c4406118fa670c06e798cce5ff1659e494b2ef3b2c59d42c7d97ab5938",
+  "tests/fixtures/localhost.p12": "b9df01bb2128a991ba8a8e40fbd422cb514b5a58166ef3ca8ea2c845ee97d238"
+}
