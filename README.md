@@ -119,6 +119,8 @@ cargo run --locked -- --demo --screenshot /tmp/rushvn-demo.png
 
 ## ライセンス
 
+ソースコードのみを公開する方針です。バイナリ配布は予定していません。利用者が手元でビルドして使用してください。
+
 rushVNの独自コード、ドキュメント、架空のデモデータ、テスト用素材および独自のスクリーンショット部分は [MIT License](LICENSE) です。第三者のコード・フォント等には各著作者のライセンスが適用され、MITへの変更を意味しません。
 
 依存ライブラリ・組み込みフォントの表示とライセンス本文は [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) にまとめています。ソース入手先、適用範囲、配布時の手順は [ライセンスと配布](docs/licensing.md) を参照してください。
